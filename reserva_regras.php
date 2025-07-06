@@ -48,24 +48,23 @@
                 <h3>7. Preferências e Pedidos Especiais</h3>
                 <p>Qualquer solicitação especial, como pratos específicos, decoração ou acomodações especiais, deve ser informada no momento da reserva.</p>
                 <p>possível para atender às preferências, mas não garante a disponibilidade de todas as solicitações</p>
-                
-            </div>
-            
-            <div class="btn-group">
-                    <a href="reserva.php">
-                        <button class="btn btn-success btn-lg btn-block ">
-                            Estou ciente da Regras
-                            </button>
-                        
-                      
-                       
-                    <a href="index.php">
-                        <button class="btn btn-danger btn-lg btn-block ">
-                            Não concordo com os termos
-                        </button>
-            
+                <br>
+                <div class="container mt-5">
+        <div class="d-flex flex-column">
+            <a href="reserva.php" class="mb-2">
+                <button class="btn btn-success btn-lg w-100">
+                    Estou ciente das Regras
+                </button>
+            </a>
+            <a href="index.php">
+                <button class="btn btn-danger btn-lg w-100">
+                    Não concordo com os termos
+                </button>
+            </a>
         </div>
+    </div>     
         </div>
+       
         
     </main>
 </body>

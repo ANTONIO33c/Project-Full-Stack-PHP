@@ -35,7 +35,7 @@ try {
 
     // Content
     $mail->isHTML(true);                              // Set email format to HTML
-    $mail->Subject = 'Assunto do Email';
+    $mail->Subject = 'Reserva Aceita';
     $mail->Body    = $mensagem;
 
     $mail->send();

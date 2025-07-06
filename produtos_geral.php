@@ -15,7 +15,7 @@ $num_linhas = $lista->num_rows;
 <!-- mostrar se a consulta retornou produtos -->
 <?php if($num_linhas > 0){?>
     <h2 class="breadcrumb alert-success">
-         PRODUTOS CADASTRADOS = <?php echo $num_linhas;?>
+         PRODUTOS = <?php echo $num_linhas;?>
     </h2>
     <div class="row">
         <?php do{ ?>

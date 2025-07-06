@@ -2,7 +2,7 @@
     <!-- area de localização -->
     <div class="col-sm-6 col-md-4">
         <div class="panel-footer" style="background: none;">
-            <img src="images/logo-chuleta.png" alt="logo_pequeno">
+            <img src="images/logo-chuleta-atualizado.png" alt="logo_pequeno">
             <br>
             <br>
             <i><strong> O melhor churrasco da zona Leste</strong></i>
