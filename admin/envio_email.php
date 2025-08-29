@@ -3,13 +3,30 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
-
 // Load Composer's autoloader
 require '../vendor/autoload.php';
+include '../conn/connect.php';
 
-// Recebe valores por POST e faz a validação básica
+
+
+
+// Buscando dados do email e validando
 $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
-$mensagem = htmlspecialchars($_POST['mensagem'], ENT_QUOTES, 'UTF-8');
+
+//Dados Horas
+$horaReservaRaw = $_POST['hora_reserva'];
+$horaReservaObj = new DateTime($horaReservaRaw);
+$horaReserva = $horaReservaObj->format('H:i');
+
+// Buscando os dados da mesa
+$mesaDisponivel = $_POST['mesa'];
+
+$dataReserva = $_POST['data_reserva'];
+// Converte a string da data para o formato desejado
+$dataFormatada = date('d/m/Y', strtotime($dataReserva));
+
+
+
 
 // Verifica se o email é válido
 if (!$email) {
@@ -36,10 +53,19 @@ try {
     // Content
     $mail->isHTML(true);                              // Set email format to HTML
     $mail->Subject = 'Reserva Aceita';
-    $mail->Body    = $mensagem;
+    $mail->Body = <<<MSG
+Sua reserva no horário: $horaReserva na data do dia: $dataFormatada foi aceita pela Churrascaria Chuleta Quente, 
+o número da sua mesa é o $mesaDisponivel.
+MSG;
+
 
     $mail->send();
-    echo 'Email enviado com sucesso!';
+   echo "<script>
+        alert('O email foi enviado ao cliente com sucesso!');
+        window.location.href = 'http://localhost/Project-Full-Stack-PHP/admin/index.php';
+      </script>";
+
+
 } catch (Exception $e) {
     echo "O e-mail não pôde ser enviado. Erro: {$mail->ErrorInfo}";
 }

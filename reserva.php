@@ -19,12 +19,14 @@ if ($_POST){
 
     }
 
+    $cpf_formatado = str_replace(['.', '-'], '', $cpf);
+
   $horaReserva = $_POST['HorariosDisponivel'];
   $especificacoes_especiais = $_POST['especial'];
 
-  $insereReserva = "insert into reserva (email,cpf,numero_pessoa,data_reserva,hora_reserva,especificacoes_especiais)
+  $insereReserva = "insert into reserva (email, cpf, numero_pessoas, data_reserva, hora_reserva, especificacoes_especiais)
     values 
-    ('$ReservaEmail' ,$cpf ,$NumeroPessoas,  '$dataReserva', '$horaReserva',' $especificacoes_especiais')";
+    ('$ReservaEmail' ,$cpf_formatado ,$NumeroPessoas,  '$dataReserva', '$horaReserva',' $especificacoes_especiais')";
 
     $resultado = $conn->query($insereReserva);
     

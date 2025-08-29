@@ -3,6 +3,7 @@ include 'acesso_com.php';
 include '../conn/connect.php';
 
 
+
 if($_POST){
     $id = $_POST['id'];
     $ReservaEmail = $_POST['email']; 
@@ -93,14 +94,13 @@ $rowReserva = $lista->fetch_assoc();
                             <label for="numeroPessoas">Numero de pessoas : </label>
                             <input type="number" name="numeroPessoas" id="numeroPessoas" class="form-control"
                                 placeholder="Digite o número de pessoas" maxlength="30"
-                                value="<?php echo $rowReserva['numero_pessoa']; ?>">
-                            <small>O titular da reserva tem direito a uma sobremesa GRÁTIS se o grupo tiver mais de
-                                5
+                                value="<?php echo $rowReserva['numero_pessoas']; ?>">
+                            <small>O titular da reserva tem direito a uma sobremesa GRÁTIS
                                 pessoas</small>
                             <br><br>
 
-                            <label for="mesa">Mesas Disponiveis:</label>
-                            <input type="text" name="mesa" id="mesa" class="form-control"
+                            <label for="mesa">Número da mesa:</label>
+                            <input type="number" name="mesa" id="mesa" class="form-control"
                                 placeholder="Digite a mesa que estiver disponivel" maxlength="30"
                                 ><br><br>
 

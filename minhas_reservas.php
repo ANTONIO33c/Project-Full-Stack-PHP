@@ -50,7 +50,7 @@ $rowsTipos = $listaReserva->num_rows;
                         <span class="hidden-xs"></span>
                     </td>
                     <td>
-                        <?php echo $rowReserva['numero_pessoa'];?>
+                        <?php echo $rowReserva['numero_pessoas'];?>
                         <span class="visible-xs"></span>
                         <span class="hidden-xs"></span>
                     </td>

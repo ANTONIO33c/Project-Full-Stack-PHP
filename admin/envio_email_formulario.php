@@ -5,8 +5,10 @@ include '../conn/connect.php';
 if($_POST){
     $id = $_POST['id'];
     $ReservaEmail = $_POST['email'];
+    $ReservaMesa = $_POST['mesa'];
         
 }
+
 
 if ($_GET){
     $id_form = $_GET['id'];
@@ -14,8 +16,9 @@ if ($_GET){
     $id_form = 0;  
 }
 
-$listaEmail = $conn->query('SELECT * FROM reserva WHERE id ='. $id_form);
-$rowEmail = $listaEmail->fetch_assoc();
+$List = $conn->query('SELECT * FROM reserva WHERE id ='. $id_form);
+$row = $List->fetch_assoc();
+
 
 
 ?>
@@ -47,16 +50,15 @@ $rowEmail = $listaEmail->fetch_assoc();
                 <div class="alert alert-danger" role="alert">
                     <form action="envio_email.php" method="POST" name="form_insere" enctype="multipart/form-data"
                         id="form_insere">
-                        <input type="hidden" name="id" id="id" value="<?php echo $rowEmail['id'];?>">
+                        <input type="hidden" name="id" id="id" value="<?php echo $row['id'];?>">
+                        <input type="hidden" name="hora_reserva" value="<?php echo $row['hora_reserva']; ?>">
+                        <input type="hidden" name="mesa" value="<?php echo $row['mesa']; ?>">
+                        <input type="hidden" name="data_reserva" value="<?php echo $row['data_reserva']; ?>">
 
-                        <label for="especial">Email: </label>
+                        <label for="especial">Confirme o Email: </label>
                         <input type="text" name="email" id="email" class="form-control" maxlength="40"
-                            value="<?php echo $rowEmail['email']; ?>">
+                            value="<?php echo $row['email']; ?>">
                         <br>
-                        <br>
-                        <label for="especial">Mensagem: </label>
-                        <input type="text" name="mensagem" id="mensagem" class="form-control"
-                            placeholder="Digite a mensagem que deseja enviar para o cliente" maxlength="300"><br><br>
                         <input type="submit" name="enviar" id="enviar" class="btn btn-success btn-block btn-sm"
                             value="Enviar Email">
 

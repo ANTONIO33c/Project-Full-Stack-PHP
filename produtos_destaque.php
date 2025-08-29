@@ -34,7 +34,7 @@ $num_linhas = $lista->num_rows;
                             <?php echo mb_strimwidth($row_produtos['resumo'],0,42,'...'); ?>
                         </p>
                         <p>
-                           <button class="btn btn-default disabled" role="button" style=cursor: default;>
+                           <button class="btn btn-default disabled" role="button" default;>
                                 <?php echo "R$ " .number_format($row_produtos['valor'],2,',','.') ?>
                             </button>
                             <a href="produto_detalhes.php?id=<?php echo $row_produtos['id']; ?>">

@@ -30,8 +30,8 @@ $rows_tipo = $lista_tipo ->fetch_all();
                 </li>
                 <li><a href="index.php#destaques">DESTAQUES</a></li>
                 <li><a href="index.php#produtos">PRODUTOS</a></li>
-                <li><a href="http://localhost/tincphp/reserva_regras.php">RESERVA</a></li>
-                <li><a href="http://localhost/tincphp/minhas_reservas.php">MINHAS RESERVAS</a></li>
+                <li><a href="http://localhost/Project-Full-Stack-PHP/reserva_regras.php">RESERVA</a></li>
+                <li><a href="http://localhost/Project-Full-Stack-PHP/minhas_reservas.php">MINHAS RESERVAS</a></li>
 
                 <!-- Dropdown -->
                 <li class="dropdown">
