@@ -5,6 +5,7 @@ $rows_tipo = $lista_tipo ->fetch_all();
 ?>
 <!-- abre a barra de navegação -->
 <nav class="navbar navbar-expanded-md navbar-fixed-top navbar-light navbar-inverse">
+
     <div class="container-fluid">
         <!-- agrupamento Mobile -->
         <div class="navbar-header">

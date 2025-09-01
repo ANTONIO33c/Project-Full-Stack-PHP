@@ -22,7 +22,13 @@
 <?php include 'menu_adm.php'; ?> 
     
 <main class="container">
-        <h2 class="breadcrumb alert-danger">Lista de Produtos</h2>
+        <h2 class="breadcrumb alert-danger">
+             <a href="index.php">
+                        <button class="btn btn-danger">
+                            <span class="glyphicon glyphicon-chevron-left"></span>
+                        </button>
+                    </a>
+                    Lista de Produtos</h2>
         <table class="table table-hover table-condensed tb-opacidade bg-warning">
             <thead>
                 <th class="hidden">ID</th>
