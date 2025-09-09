@@ -2,7 +2,7 @@
     <!-- area de localização -->
     <div class="col-sm-6 col-md-4">
         <div class="panel-footer" style="background: none;">
-            <img src="images/logo-chuleta-atualizado.png" alt="logo_pequeno">
+            <!-- <img src="images/logo-chuleta-atualizado.png" alt="logo_pequeno"> -->
             <br>
             <br>
             <i><strong> O melhor churrasco da zona Leste</strong></i>
@@ -108,7 +108,7 @@
             <h6 class="text-danger text-center">
                 Desenvolvido por A|G&trade; 2024
                 <br>
-                <a href="https://github.com/ANTONIO33c" target="_blank">softkleen.com.br</a>
+                <a href="https://github.com/ANTONIO33c" target="_blank">Antonio.com.br</a>
             </h6>
         </div>
     </div>

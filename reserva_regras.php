@@ -51,7 +51,7 @@
                 <br>
                 <div class="container mt-5">
         <div class="d-flex flex-column">
-            <a href="reserva.php" class="mb-2">
+            <a href="LoginCliente.php" class="mb-2">
                 <button class="btn btn-success btn-lg w-100">
                     Estou ciente das Regras
                 </button>

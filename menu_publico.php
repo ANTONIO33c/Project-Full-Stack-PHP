@@ -3,7 +3,15 @@ include "conn/connect.php";
 $lista_tipo = $conn->query('select * from tipos order by rotulo');
 $rows_tipo = $lista_tipo ->fetch_all();
 ?>
-<!-- abre a barra de navegação -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- abre a barra de navegação -->
 <nav class="navbar navbar-expanded-md navbar-fixed-top navbar-light navbar-inverse">
 
     <div class="container-fluid">
@@ -76,3 +84,6 @@ $rows_tipo = $lista_tipo ->fetch_all();
         </div>
     </div>
 </nav>
+<script src="./js/menu_public.js"></script>
+</body>
+</html>

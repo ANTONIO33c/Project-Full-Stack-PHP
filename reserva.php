@@ -71,7 +71,7 @@ if ($_POST){
                             <input type="text" id="email" name="email" required class="form-control"><br><br>
 
                             <label for="cpf">cpf : </label>
-                            <input type="text" id="cpf" name="cpf" required class="form-control"><br><br>
+                            <input type="text" id="cpf" name="cpf" required class="form-control" maxlength="11"><br><br>
 
                             <label for="numeroPessoas">Numero de pessoas : </label>
                             <input type="number" id="numeroPessoas" name="numeroPessoas" required class="form-control">

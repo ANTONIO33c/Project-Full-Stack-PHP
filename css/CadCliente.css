@@ -1,0 +1,31 @@
+ body {
+            background-color: #fff;
+        }
+
+        .form-container {
+            margin-top: 50px;
+            padding: 30px;
+            background-color: #fff;
+            border: 2px solid #d9534f;
+            border-radius: 8px;
+        }
+
+        .form-container h2 {
+            color: #d9534f;
+        }
+
+        .form-container label {
+            color: #d9534f;
+        }
+
+        .btn-danger {
+            background-color: #d9534f;
+            border-color: #d43f3a;
+        }
+
+        .breadcrumb {
+            background-color: transparent;
+            padding: 0;
+            margin-bottom: 30px;
+            border: none;
+        }

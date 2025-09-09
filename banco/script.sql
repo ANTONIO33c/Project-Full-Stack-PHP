@@ -17,6 +17,16 @@ CREATE TABLE `produtos` (
   `destaque` enum('Sim','Não') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- Create table Reserva
+CREATE TABLE `tincphpdb01`.`reserva` (
+  `id` INT NOT NULL AUTO_INCREMENT UNIQUE PRIMARY KEY,
+  `email` VARCHAR(45) NOT NULL,
+  `cpf` CHAR(11) NOT NULL,
+  `numero_pessoas` INT NOT NULL,
+  `data_reserva` DATE NOT NULL,
+  `hora_reserva` TIME NOT NULL,
+  `especificacaoes_especiais` VARCHAR(45) NULL);
+
 -- Extraindo dados da tabela `produtos`
 INSERT INTO `produtos` (`id`, `tipo_id`, `descricao`, `resumo`, `valor`, `imagem`, `destaque`) VALUES
 (1, 1, 'Picanha ao alho', ' Esta e a combinação do sabor inconfundível da picanha com o aroma acentuado do alho. Condimento que casa perfeitamente com este corte nobre', 49.90, 'picanha_alho.jpg', 'Sim'),

@@ -55,7 +55,7 @@ try {
     $mail->Subject = 'Reserva Aceita';
     $mail->Body = <<<MSG
 Sua reserva no horário: $horaReserva na data do dia: $dataFormatada foi aceita pela Churrascaria Chuleta Quente, 
-o número da sua mesa é o $mesaDisponivel.
+o número da sua mesa é a $mesaDisponivel.
 MSG;
 
 

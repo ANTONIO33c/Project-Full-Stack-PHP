@@ -14,7 +14,7 @@ $num_linhas = $lista->num_rows;
  
 <?php if($num_linhas > 0) {  ?>
     <h2 class="breadcrum alert-success">
-        Destaques
+        DESTAQUES
     </h2>
     <div class="row">
         <?php do{ ?>
