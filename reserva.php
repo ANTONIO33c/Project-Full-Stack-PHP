@@ -1,40 +1,58 @@
 <?php 
 include 'conn/connect.php';
 
-if ($_POST){
-  $ReservaEmail = $_POST['email']; 
-  $cpf = $_POST['cpf'];
-  $NumeroPessoas = $_POST['numeroPessoas']; 
-  $dataReserva = $_POST['dataDisponivel'];
-    
+session_name('clientes');
+session_start();
 
-    $result = explode('/', $dataReserva);
+if (!isset($_SESSION['login_usuario'])) {
+    header("Location: logincliente.php");
+    exit;
+}
 
-    if (count($result) === 3) {
-        $dia = $result[0];
-        $mes = $result[1];
-        $ano = $result[2];
+$email = $_SESSION['login_usuario'];
 
-        $dataReserva = $ano .'-'. $mes .'-'. $dia;
+// Processa envio do formulário
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $ReservaEmail = $_POST['email']; 
+    $cpf = $_POST['cpf'];
+    $NumeroPessoas = (int)$_POST['numeroPessoas']; 
+    $dataReserva = $_POST['dataDisponivel'];
+    $horaReserva = $_POST['HorariosDisponivel'];
+    $especificacoes_especiais = trim($_POST['especial']);
 
-    }
-
+    // Formata CPF
     $cpf_formatado = str_replace(['.', '-'], '', $cpf);
 
-  $horaReserva = $_POST['HorariosDisponivel'];
-  $especificacoes_especiais = $_POST['especial'];
+    // Converte data para formato YYYY-MM-DD se necessário
+    if (strpos($dataReserva, '/') !== false) {
+        $result = explode('/', $dataReserva);
+        if (count($result) === 3) {
+            $dataReserva = $result[2] . '-' . $result[1] . '-' . $result[0];
+        }
+    }
 
-  $insereReserva = "insert into reserva (email, cpf, numero_pessoas, data_reserva, hora_reserva, especificacoes_especiais)
-    values 
-    ('$ReservaEmail' ,$cpf_formatado ,$NumeroPessoas,  '$dataReserva', '$horaReserva',' $especificacoes_especiais')";
+    // Query segura com prepared statement
+    $stmt = $conn->prepare("INSERT INTO reserva 
+        (email, cpf, numero_pessoas, data_reserva, hora_reserva, especificacoes_especiais)
+        VALUES (?, ?, ?, ?, ?, ?)"
+    );
+    $stmt->bind_param("ssisss", 
+        $ReservaEmail, 
+        $cpf_formatado, 
+        $NumeroPessoas, 
+        $dataReserva, 
+        $horaReserva, 
+        $especificacoes_especiais
+    );
 
-    $resultado = $conn->query($insereReserva);
-    
-
-  
+    if ($stmt->execute()) {
+        // Redireciona ou exibe mensagem de sucesso
+        echo "<script>alert('Reserva enviada com sucesso!');</script>";
+    } else {
+        echo "<script>alert('Erro ao salvar reserva.');</script>";
+    }
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -63,40 +81,31 @@ if ($_POST){
                 </h2>
                 <div class="thumbnail">
                     <div class="alert alert-danger" role="alert">
-                        <form action="reserva.php" method="post" name="form_insere" enctype="multipart/form-data"
-                            id="form_insere">
+                       <form action="reserva.php" method="post" name="form_insere" enctype="multipart/form-data" id="form_insere">
+                       <label for="email">EMAIL:</label>
+                  <input type="email" name="email" class = "form-control" value="<?php echo htmlspecialchars($email); ?>" readonly>
 
+                    <label for="cpf">CPF:</label>
+                    <input type="text" id="cpf" name="cpf" required class="form-control" maxlength="11">
 
-                            <label for="text">Email : </label>
-                            <input type="text" id="email" name="email" required class="form-control"><br><br>
+                    <label for="numeroPessoas">Número de pessoas:</label>
+                    <input type="number" id="numeroPessoas" name="numeroPessoas" required class="form-control" min="1">
+                    <small>O titular da reserva tem direito a uma sobremesa GRÁTIS se o grupo tiver mais de 5 pessoas</small>
 
-                            <label for="cpf">cpf : </label>
-                            <input type="text" id="cpf" name="cpf" required class="form-control" maxlength="11"><br><br>
+                    <label for="dataDisponivel">Data disponível:</label>
+                    <input type="date" id="dataDisponivel" name="dataDisponivel" required class="form-control">
 
-                            <label for="numeroPessoas">Numero de pessoas : </label>
-                            <input type="number" id="numeroPessoas" name="numeroPessoas" required class="form-control">
-                            <small>O titular da reserva tem direito a uma sobremesa GRÁTIS se o grupo tiver mais de 5
-                                pessoas</small>
-                            <br><br>
+                    <label for="HorariosDisponivel">Horário disponível:</label>
+                    <input type="time" id="HorariosDisponivel" name="HorariosDisponivel" min="17:00" max="23:00" required class="form-control">
+                    <small>Horário de funcionamento: 17h às 23h</small>
 
-                            <label for="dataDisponivel">Datas Disponiveis:</label>
-                            <input type="date" id="dataDisponivel" name="dataDisponivel" required
-                                class="form-control"><br><br>
+                    <label for="especial">Precisa de algo especial? (opcional)</label>
+                    <input type="text" id="especial" name="especial" class="form-control" placeholder="Ex: aniversário, pedido especial, etc.">
 
-                            <label for="HorariosDisponivel">Horários Disponiveis:</label>
-                            <input type="time" id="HorariosDisponivel" name="HorariosDisponivel" min="17:00" max="23:00"
-                                required class="form-control">
-                            <small>Horário de funcionamento das 17 ás 23</small>
-                            <br><br>
+                    <br>
+                    <input type="submit" value="Enviar" id="button" class="btn btn-danger btn-block">
+</form>
 
-                            <br>
-                            <label for="especial">Precisa de algo especial? (opcional) </label>
-                            <input type="text" id="especial" name="especial" class="form-control"
-                                placeholder="exemplo: aniversário, ocasiões especiais, etc.."><br><br>
-
-                            <br>
-                            <input type="submit" value="Enviar" id="button" class="btn btn-danger btn-block">
-                        </form>
                     </div>
                 </div>
             </div>

@@ -1,93 +1,106 @@
 <?php
-session_start();
-require './conn/connect.php';
+include './conn/connect.php';
+// Inicia sessão com nome personalizado
+session_name('clientes');
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
 
 $erro_login = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = trim($_POST['login'] ?? '');
-    $senha = $_POST['senha'] ?? '';
+    $login = trim($_POST['login']);
+    $senha = md5(trim($_POST['senha']));
 
-    $stmt = $conn->prepare("SELECT * FROM usuarios WHERE login = ?");
-    $stmt->execute([$email]);
-    $cliente = $stmt->fetch();
-
-    if ($cliente && password_verify($senha, $cliente['senha'])) {
-        $_SESSION['cliente_id'] = $cliente['id'];
-        $_SESSION['cliente_nome'] = $cliente['nome'];
-
-        $redirect = $_SESSION['redirect_after_login'] ?? 'reservas.php';
-        unset($_SESSION['redirect_after_login']);
-        header("Location: $redirect");
-        exit();
+    if (!str_ends_with($login, '@gmail.com')) {
+        $erro_login = "Somente emails @gmail.com são permitidos.";
     } else {
-        $erro_login = "Login inválido. Verifique suas credenciais e tente novamente.";
+        // Prepara query segura
+        $stmt = $conn->prepare("SELECT * FROM usuarios WHERE login = ? AND senha = ?");
+        $stmt->bind_param("ss", $login, $senha);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $rowLogin = $result->fetch_assoc();
+
+        if ($result->num_rows > 0) {
+            $_SESSION['login_usuario'] = $rowLogin['login'];
+            $_SESSION['nivel_usuario'] = $rowLogin['nivel'];
+            $_SESSION['id_usuario'] = $rowLogin['id'];
+            $_SESSION['nome_da_sessao'] = session_name();
+
+            if ($rowLogin['nivel'] == 'com') {
+                echo "<script>window.location.href='reserva.php';</script>";
+                exit;
+            } else {
+                $erro_login = "Acesso negado. Seu perfil não é do tipo 'cliente'.";
+            }
+        } else {
+            $erro_login = "Login ou senha incorretos.";
+        }
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <title>Login</title>
+  <title>Login Cliente</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- Bootstrap 5 -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <!-- Bootstrap 3 -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
-  <!-- Font Awesome (para os ícones) -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Font Awesome 4 (compatível com glyphicons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+
+  <!-- Toastr CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 </head>
-<body class="bg-light">
+<body style="background-color: #f8f8f8;">
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6 col-lg-5">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h3 class="card-title text-center mb-4 text-primary">Faça seu login</h3>
+<div class="container" style="margin-top: 50px;">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="panel panel-default">
+                <div class="panel-body">
 
-                    <!-- Ícone central -->
-                    <div class="text-center mb-4">
-                        <i class="fas fa-users fa-4x text-primary"></i>
+                    <h2 class="breadcrumb text-primary">
+                        <a href="reserva_regras.php" class="btn btn-primary btn-sm">
+                            <span class="glyphicon glyphicon-chevron-left"></span>
+                        </a>
+                        Faça seu Login
+                    </h2>
+
+                    <div class="text-center" style="margin-bottom: 20px;">
+                        <i class="fa fa-users fa-4x text-primary"></i>
                     </div>
-
-                    <!-- Mensagem de erro -->
-                    <?php if (!empty($erro_login)) : ?>
-                        <div class="alert alert-danger" role="alert">
-                            <?= htmlspecialchars($erro_login) ?>
-                        </div>
-                    <?php endif; ?>
-
-                    <!-- Formulário de login -->
+                    <!-- Formulário -->
                     <form action="LoginCliente.php" method="POST" id="form_login" enctype="multipart/form-data">
-                        <div class="mb-3">
-                            <label for="login" class="form-label">Login:</label>
+                        <div class="form-group">
+                            <label for="login">Login (Gmail):</label>
                             <div class="input-group">
-                                <span class="input-group-text"><i class="fas fa-user text-primary"></i></span>
-                                <input type="text" name="login" id="login" class="form-control" required autofocus autocomplete="off" placeholder="Digite seu login." pattern=".*@gmail\.com$"  title="Por favor, use um email do Gmail (@gmail.com)">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-user text-primary"></i></span>
+                                <input type="text" name="login" id="login" class="form-control" required
+                                    placeholder="Digite seu login"
+                                    pattern=".*@gmail\.com$"
+                                    title="Use um email do Gmail (@gmail.com)">
                             </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label for="senha" class="form-label">Senha:</label>
+                        <div class="form-group">
+                            <label for="senha">Senha:</label>
                             <div class="input-group">
-                                <span class="input-group-text"><i class="fas fa-lock text-primary"></i></span>
-                                <input type="password" name="senha" id="senha" class="form-control" required autocomplete="off" placeholder="Digite sua senha.">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-lock text-primary"></i></span>
+                                <input type="password" name="senha" id="senha" class="form-control" required placeholder="Digite sua senha">
                             </div>
                         </div>
 
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-primary">Entrar</button>
-                        </div>
-                       <a href="CadCliente.php" class="btn btn-default btn-sm">Cadastre-se</a> 
+                        <button type="submit" class="btn btn-primary btn-block">Entrar</button>
+                        <a href="CadCliente.php" class="btn btn-default btn-block">Cadastre-se</a>
                     </form>
 
-                    <p class="text-center mt-4">
-                        <small>
-                            Caso não faça uma escolha em 30 segundos, será redirecionado automaticamente para a página inicial.
-                        </small>
+                    <p class="text-center" style="margin-top: 20px;">
+                        <small>Você será redirecionado automaticamente após 30 segundos.</small>
                     </p>
                 </div>
             </div>
@@ -95,8 +108,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 </div>
 
-<!-- Bootstrap JS (opcional, apenas se for usar recursos como modals ou tooltips) -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+<!-- Feedback Toastr -->
+<?php if (!empty($erro_login)) : ?>
+<script>
+    toastr.options = {
+        "closeButton": true,
+        "progressBar": true,
+        "positionClass": "toast-top-center"
+    };
+    toastr.error("<?= addslashes($erro_login); ?>");
+</script>
+<?php endif; ?>
 
 </body>
 </html>
