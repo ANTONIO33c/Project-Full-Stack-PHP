@@ -1,31 +1,87 @@
- body {
-            background-color: #fff;
-        }
+body {
+    font-family: Arial, sans-serif;
+    background-color: #000000; /* fundo preto */
+    margin: 0;
+    padding: 20px;
+}
 
-        .form-container {
-            margin-top: 50px;
-            padding: 30px;
-            background-color: #fff;
-            border: 2px solid #d9534f;
-            border-radius: 8px;
-        }
+.container {
+    margin-top: 40px;
+}
 
-        .form-container h2 {
-            color: #d9534f;
-        }
+.breadcrumb {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    font-size: 24px;
+    font-weight: bold;
+    color: #1c66d4; /* azul vibrante */
+}
 
-        .form-container label {
-            color: #d9534f;
-        }
+.breadcrumb a {
+    text-decoration: none;
+    color: #ffffff;
+}
 
-        .btn-danger {
-            background-color: #d9534f;
-            border-color: #d43f3a;
-        }
+.btn-danger {
+    background-color: #1c66d4; /* azul */
+    border-color: #1c66d4;
+    color: #fff;
+}
 
-        .breadcrumb {
-            background-color: transparent;
-            padding: 0;
-            margin-bottom: 30px;
-            border: none;
-        }
+.btn-danger:hover {
+    background-color: #154c9c; /* azul mais escuro */
+    border-color: #154c9c;
+}
+
+.thumbnail {
+    padding: 20px;
+    background-color: #ffffff;
+    border: 1px solid #1c66d4;
+    border-radius: 4px;
+}
+
+.alert-danger {
+    border: 1px solid #1c66d4;
+    background-color: #eaf1fb; /* azul bem claro */
+    color: #1c66d4;
+    padding: 20px;
+    border-radius: 4px;
+}
+
+label {
+    font-weight: bold;
+    color: #1c66d4;
+}
+
+input[type="text"],
+input[type="password"] {
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #1c66d4;
+    border-radius: 4px;
+    width: 100%;
+}
+
+input[type="radio"] {
+    margin-right: 5px;
+}
+
+#button {
+    background-color: #1c66d4;
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#button:hover {
+    background-color: #154c9c;
+}
+
+h2 span.glyphicon {
+    margin-right: 10px;
+}
